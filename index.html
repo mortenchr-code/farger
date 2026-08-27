@@ -607,13 +607,26 @@
       applyFilters();
     }
 
+    function normalizeText(str) {
+      return str
+        .toLowerCase()
+        .replace(/æ/g, 'ae')
+        .replace(/ø/g, 'o')
+        .replace(/å/g, 'a')
+        .replace(/oe/g, 'o')
+        .replace(/aa/g, 'a');
+    }
+
     function applyFilters() {
-      const q = search.value.trim().toLowerCase();
+      const q = normalizeText(search.value.trim());
       const cards = Array.from(grid.querySelectorAll('.color-card'));
       let visible = 0;
       cards.forEach(card => {
         const matchesMaterial = activeFilter === 'all' || card.dataset.material === activeFilter;
-        const matchesSearch = !q || card.dataset.name.includes(q);
+        const visibleName = card.querySelector('.name').textContent;
+        const brand = card.dataset.brand || '';
+        const searchableText = normalizeText(`${visibleName} ${card.dataset.name} ${brand}`);
+        const matchesSearch = !q || searchableText.includes(q);
         const show = matchesMaterial && matchesSearch;
         card.classList.toggle('hidden', !show);
         if (show) visible++;
