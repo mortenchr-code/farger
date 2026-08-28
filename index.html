@@ -625,7 +625,8 @@
         const matchesMaterial = activeFilter === 'all' || card.dataset.material === activeFilter;
         const visibleName = card.querySelector('.name').textContent;
         const brand = card.dataset.brand || '';
-        const searchableText = normalizeText(`${visibleName} ${card.dataset.name} ${brand}`);
+        const colorLabel = colorLabels[card.dataset.color] || card.dataset.color || '';
+        const searchableText = normalizeText(`${visibleName} ${card.dataset.name} ${brand} ${colorLabel}`);
         const matchesSearch = !q || searchableText.includes(q);
         const show = matchesMaterial && matchesSearch;
         card.classList.toggle('hidden', !show);
