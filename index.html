@@ -176,7 +176,7 @@
 </head>
 <body>
   <h1>Fargekatalog</h1>
-  <p class="subtitle">Oversikt over tilgjengelige filamentfarger</p>
+  <p class="subtitle" id="subtitle"></p>
 
   <div class="controls">
     <input type="text" id="search" placeholder="Søk etter farge eller merke...">
@@ -541,6 +541,7 @@
     };
 
     const originalOrder = Array.from(grid.querySelectorAll('.color-card'));
+    document.getElementById('subtitle').textContent = `${originalOrder.length} tilgjengelige farger`;
 
     // Vis merkenavn på kortet dersom data-brand er fylt inn
     originalOrder.forEach(card => {
