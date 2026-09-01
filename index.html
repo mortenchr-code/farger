@@ -11,6 +11,23 @@
       --text: #333;
       --accent: #2f6fed;
       --border: #e2e2e2;
+      --subtitle: #777;
+      --count: #888;
+      --heading: #555;
+      --name-color: #333;
+      --brand-color: #999;
+    }
+    [data-theme="dark"] {
+      --bg: #16171a;
+      --card-bg: #212226;
+      --text: #e6e6e6;
+      --accent: #5b8dfb;
+      --border: #33343a;
+      --subtitle: #9a9a9a;
+      --count: #8d8d8d;
+      --heading: #c7c7c7;
+      --name-color: #f0f0f0;
+      --brand-color: #a5a5a5;
     }
     * { box-sizing: border-box; }
     body {
@@ -19,6 +36,7 @@
       margin: 0;
       padding: 20px;
       color: var(--text);
+      transition: background 0.2s, color 0.2s;
     }
     h1 {
       text-align: center;
@@ -26,7 +44,7 @@
     }
     .subtitle {
       text-align: center;
-      color: #777;
+      color: var(--subtitle);
       margin-bottom: 20px;
       font-size: 0.95em;
     }
@@ -46,11 +64,14 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       font-size: 1em;
+      background: var(--card-bg);
+      color: var(--text);
     }
     .filter-btn {
       padding: 8px 14px;
       border: 1px solid var(--border);
-      background: #fff;
+      background: var(--card-bg);
+      color: var(--text);
       border-radius: 20px;
       cursor: pointer;
       font-size: 0.9em;
@@ -66,12 +87,22 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       font-size: 0.9em;
-      background: #fff;
+      background: var(--card-bg);
+      color: var(--text);
+      cursor: pointer;
+    }
+    #theme-toggle {
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.9em;
+      background: var(--card-bg);
+      color: var(--text);
       cursor: pointer;
     }
     .count {
       text-align: center;
-      color: #888;
+      color: var(--count);
       font-size: 0.85em;
       margin-bottom: 16px;
     }
@@ -89,7 +120,7 @@
       text-align: center;
       box-shadow: 0 2px 5px rgba(0,0,0,0.08);
       position: relative;
-      transition: transform 0.15s, box-shadow 0.15s;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
     }
     .color-card:hover {
       transform: translateY(-3px);
@@ -106,7 +137,7 @@
     .color-card span.name {
       font-weight: bold;
       display: block;
-      color: #333;
+      color: var(--name-color);
       font-size: 0.95em;
     }
     .badge {
@@ -125,7 +156,7 @@
     .brand-label {
       display: block;
       font-size: 0.72em;
-      color: #999;
+      color: var(--brand-color);
       margin-top: 2px;
     }
     .hidden {
@@ -135,7 +166,7 @@
       grid-column: 1 / -1;
       font-size: 1.1em;
       font-weight: bold;
-      color: #555;
+      color: var(--heading);
       margin: 10px 0 -8px 4px;
       border-bottom: 2px solid var(--border);
       padding-bottom: 4px;
@@ -189,6 +220,7 @@
       <option value="color" selected>Etter farge</option>
       <option value="brand">Etter merke</option>
     </select>
+    <button id="theme-toggle" type="button">🌙 Mørk modus</button>
   </div>
 
   <p class="count" id="count"></p>
@@ -588,6 +620,21 @@
         label.textContent = brand;
         card.appendChild(label);
       }
+    });
+
+    // Mørk modus
+    const themeToggle = document.getElementById('theme-toggle');
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      themeToggle.textContent = theme === 'dark' ? '☀️ Lys modus' : '🌙 Mørk modus';
+      localStorage.setItem('filament-theme', theme);
+    }
+    const savedTheme = localStorage.getItem('filament-theme')
+      || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(savedTheme);
+    themeToggle.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
     });
 
     function clearHeadings() {
