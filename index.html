@@ -159,6 +159,32 @@
       color: var(--brand-color);
       margin-top: 2px;
     }
+    .color-card[data-instock="false"] img {
+      filter: grayscale(100%);
+      opacity: 0.5;
+    }
+    .color-card[data-instock="false"] {
+      opacity: 0.75;
+    }
+    .out-of-stock-tag {
+      display: none;
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-4deg);
+      background: #d32f2f;
+      color: #fff;
+      font-size: 0.68em;
+      font-weight: bold;
+      padding: 3px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+    .color-card[data-instock="false"] .out-of-stock-tag {
+      display: block;
+    }
     .hidden {
       display: none !important;
     }
@@ -228,6 +254,7 @@
   <div class="grid" id="grid">
     <!-- data-color brukes til fargesortering: svart, hvit, graa, roed, orange, gul, groenn, blaa, lilla, rosa, brun, beige, gull, soelv, transparent -->
     <!-- Fyll inn merke i data-brand="" på hvert kort, f.eks. data-brand="Bambu Lab", data-brand="eSUN", data-brand="Polymaker" osv. Tomme kort vises som "Ukjent merke". -->
+    <!-- For å markere et filament som tomt for lager: legg til data-instock="false" på kortet, f.eks. <div class="color-card" ... data-instock="false"> -->
 
     <div class="color-card" data-material="pla" data-name="svart" data-color="svart" data-brand="Bambu Lab">
       <img src="images/black_basic.png" alt="Svart PLA" loading="lazy">
@@ -523,7 +550,7 @@
       <span class="badge">PLA</span>
     </div>
 
-    <div class="color-card" data-material="pla" data-name="beige 2" data-color="beige" data-brand="Bambu Lab">
+    <div class="color-card" data-material="pla" data-name="beige 2" data-color="beige" data-brand="Bambu Lab" data-instock="false">
       <img src="images/Beige.jpg" alt="Beige PLA" loading="lazy">
       <span class="name">Beige</span>
       <span class="badge">PLA</span>
@@ -619,6 +646,16 @@
         label.className = 'brand-label';
         label.textContent = brand;
         card.appendChild(label);
+      }
+    });
+
+    // Legg til "Tom for lager"-merke på kort med data-instock="false"
+    originalOrder.forEach(card => {
+      if (card.dataset.instock === 'false') {
+        const tag = document.createElement('span');
+        tag.className = 'out-of-stock-tag';
+        tag.textContent = 'Tom for lager';
+        card.appendChild(tag);
       }
     });
 
