@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Filamentkatalog</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='48' width='52' height='8' rx='2' fill='%232f6fed'/%3E%3Crect x='14' y='10' width='36' height='8' rx='2' fill='%232f6fed'/%3E%3Crect x='24' y='18' width='4' height='30' fill='%232f6fed'/%3E%3Crect x='36' y='18' width='4' height='30' fill='%232f6fed'/%3E%3Ccircle cx='32' cy='34' r='7' fill='%23ff8a3d'/%3E%3Cpath d='M32 28a6 6 0 1 1 -4.2 10.2' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
   <style>
     :root {
       --bg: #f9f9f9;
@@ -346,12 +347,6 @@
       <span class="badge">PLA</span>
     </div>
 
-    <div class="color-card" data-material="pla" data-name="pastel gul" data-color="gul" data-brand="Fiberology" data-instock="false">
-      <img src="images/pastelgul.jpg" alt="Pastel Gul PLA" loading="lazy">
-      <span class="name">Pastel Gul</span>
-      <span class="badge">PLA</span>
-    </div>
-
     <div class="color-card" data-material="pla" data-name="basic lys blaa" data-color="blaa" data-brand="Esun">
       <img src="images/basic_lys_blaa.avif" alt="Basic Lys Blå PLA" loading="lazy">
       <span class="name">Basic Lys Blå</span>
@@ -660,7 +655,7 @@
       if (card.dataset.instock === 'false') {
         const tag = document.createElement('span');
         tag.className = 'out-of-stock-tag';
-        tag.textContent = 'Tomt på lager';
+        tag.textContent = 'Tom for lager';
         card.appendChild(tag);
       }
     });
