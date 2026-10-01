@@ -154,6 +154,10 @@
       background: #fff3e0;
       color: #ef6c00;
     }
+    .badge.special {
+      background: #f3e5f5;
+      color: #8e24aa;
+    }
     .brand-label {
       display: block;
       font-size: 0.72em;
@@ -237,10 +241,11 @@
   <p class="subtitle" id="subtitle"></p>
 
   <div class="controls">
-    <input type="text" id="search" placeholder="Søk etter farge eller merke...">
+    <input type="text" id="search" placeholder="Søk etter farge, merke eller type...">
     <button class="filter-btn active" data-filter="all">Alle</button>
     <button class="filter-btn" data-filter="pla">PLA</button>
     <button class="filter-btn" data-filter="petg">PETG</button>
+    <button class="filter-btn" data-filter="special">Spesialfilament</button>
     <select id="sort">
       <option value="default">Standard rekkefølge</option>
       <option value="alpha">Alfabetisk</option>
@@ -256,6 +261,7 @@
     <!-- data-color brukes til fargesortering: svart, hvit, graa, roed, orange, gul, groenn, blaa, lilla, rosa, brun, beige, gull, soelv, transparent -->
     <!-- Fyll inn merke i data-brand="" på hvert kort, f.eks. data-brand="Bambu Lab", data-brand="eSUN", data-brand="Polymaker" osv. Tomme kort vises som "Ukjent merke". -->
     <!-- For å markere et filament som tomt for lager: legg til data-instock="false" på kortet, f.eks. <div class="color-card" ... data-instock="false"> -->
+    <!-- Spesialfilament (TPU, PLA-CF, Glow, Wood osv.): bruk data-material="special" og <span class="badge special">TYPE</span> -->
 
     <div class="color-card" data-material="pla" data-name="svart" data-color="svart" data-brand="Bambu Lab">
       <img src="images/black_basic.png" alt="Svart PLA" loading="lazy">
@@ -617,6 +623,33 @@
       <span class="name">Sakura Pink</span>
       <span class="badge">PLA</span>
     </div>
+
+    <!-- ===== SPESIALFILAMENT (rediger bilde, navn, farge og merke selv) ===== -->
+
+    <div class="color-card" data-material="special" data-name="tpu" data-color="svart" data-brand="Geetech">
+      <img src="geetech_tpu.jpg" alt="TPU" loading="lazy">
+      <span class="name">TPU</span>
+      <span class="badge special">TPU</span>
+    </div>
+
+    <div class="color-card" data-material="special" data-name="pla-cf" data-color="svart" data-brand="Azurefilm">
+      <img src="azurefilm_placf.jpg" alt="PLA-CF" loading="lazy">
+      <span class="name">PLA-CF</span>
+      <span class="badge special">PLA-CF</span>
+    </div>
+
+    <div class="color-card" data-material="special" data-name="glow" data-color="groenn" data-brand="Geetech">
+      <img src="geetech_glow.jpg" alt="Glow in the dark" loading="lazy">
+      <span class="name">Glow</span>
+      <span class="badge special">Glow</span>
+    </div>
+
+    <div class="color-card" data-material="special" data-name="wood" data-color="brun" data-brand="Geetech">
+      <img src="images/geetech_wood.jpg" alt="Wood" loading="lazy">
+      <span class="name">Wood</span>
+      <span class="badge special">Wood</span>
+    </div>
+
     <!-- Legg til flere her -->
   </div>
 
@@ -758,9 +791,10 @@
       cards.forEach(card => {
         const matchesMaterial = activeFilter === 'all' || card.dataset.material === activeFilter;
         const visibleName = card.querySelector('.name').textContent;
+        const badgeText = card.querySelector('.badge').textContent;
         const brand = card.dataset.brand || '';
         const colorLabel = colorLabels[card.dataset.color] || card.dataset.color || '';
-        const searchableText = normalizeText(`${visibleName} ${card.dataset.name} ${brand} ${colorLabel}`);
+        const searchableText = normalizeText(`${visibleName} ${card.dataset.name} ${brand} ${colorLabel} ${badgeText}`);
         const matchesSearch = !q || searchableText.includes(q);
         const show = matchesMaterial && matchesSearch;
         card.classList.toggle('hidden', !show);
